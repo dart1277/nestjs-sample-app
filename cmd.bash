@@ -102,3 +102,6 @@ nest generate controller messages/messages --flat // --flat don't create folder 
 ### ValidationPipe
 npm i --save class-validator class-transformer
 // then add middleware: app.useGlobalPipes(new ValidationPipe());
+
+### typeorm
+npm i @nestjs/typeorm typeorm sqlite3
