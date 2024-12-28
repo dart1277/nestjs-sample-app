@@ -1,4 +1,4 @@
-import * as Ut from './sub/util';
+import * as Ut from '../sub/util';
 import * as util from "node:util";
 
 // info on how to mock ES6 class
@@ -35,7 +35,7 @@ jest.mock('./sub/util', () => ({
 
 // https://stackoverflow.com/questions/53225236/typescript-jest-says-mock-or-mockreturnedvalue-do-not-exist-on-types-i-wish-to-m
 
-jest.mock('./sub/util'); // call to mock is mandatory for mocked to work
+jest.mock('../sub/util'); // call to mock is mandatory for mocked to work
 //const utilMock = jest.mocked(Ut);
 const utilFun3Mock = jest.mocked(Ut.fun3);
 const utilMock = jest.mocked(Ut.default).mockImplementation(() => ({
