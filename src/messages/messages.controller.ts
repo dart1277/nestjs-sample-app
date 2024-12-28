@@ -8,8 +8,12 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  NotFoundException,
+  UnauthorizedException,
+  Inject,
 } from '@nestjs/common';
 import { CreateMessageDto } from './model/create-message.dto';
+import { IMessagesRepository, Msg } from './messages.repository';
 
 @Controller('messages')
 export class MessagesController {
@@ -17,8 +21,10 @@ export class MessagesController {
     timestamp: true,
   });
 
+  constructor(@Inject(IMessagesRepository) private repo: IMessagesRepository) {}
+
   @Get(':id')
-  getMessages(
+  async getMessages(
     @Param('id') id: string,
     @Headers() headers: Record<string, string>,
     @Headers('Authorization') auth?: string,
@@ -28,17 +34,29 @@ export class MessagesController {
     this.logger.log(`Getting headers ${Object.keys(headers)}`);
     const map = new Map<string, string>(Object.entries(headers));
     const authorization2 = map.get('authorization');
-    return { data: id, header: authorization2 };
+    if (!authorization2) {
+      throw new UnauthorizedException('Not authorized access');
+    }
+    const msg = await this.repo.findOne(id);
+    if (!msg) {
+      throw new NotFoundException(`Item with id ${id} not found`);
+    }
+    return msg!;
   }
 
   @Post(':id')
   //@UsePipes(new ValidationPipe({ transform: true }))
-  createMessage(
+  async createMessage(
     @Body() dto: CreateMessageDto,
     @Param('id') id: string,
-  ): CreateMessageDto {
+  ): Promise<Msg> {
     this.logger.log(dto);
     this.logger.log(`Creating message with id ${id}`);
-    return dto;
+    return this.repo.create(id, dto.content);
+  }
+
+  @Get()
+  async findAll(): Promise<Msg[]> {
+    return this.repo.findAll();
   }
 }

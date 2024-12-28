@@ -1,18 +1,23 @@
 
 
 ###
-GET {{host}}/messages/12
+GET {{host}}/messages
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+###
+GET {{host}}/messages/21
 Content-Type: application/json
 Authorization: Bearer {{apiKey}}
 
 
 ###
-POST {{host}}/messages/21
+POST {{host}}/messages/22
 Content-Type: application/json
 Authorization: Bearer {{apiKey}}
 
 {
-  "content": "1"
+  "content": "22 is there"
 }
 
 ###
