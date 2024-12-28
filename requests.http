@@ -1,0 +1,18 @@
+
+
+###
+GET {{host}}/messages/12
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+
+###
+POST {{host}}/messages/21
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "content": "1"
+}
+
+###
