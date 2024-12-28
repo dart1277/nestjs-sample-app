@@ -10,32 +10,34 @@ import {
   ValidationPipe,
   NotFoundException,
   UnauthorizedException,
-  Inject,
-} from '@nestjs/common';
-import { CreateMessageDto } from './model/create-message.dto';
-import { IMessagesRepository, Msg } from './messages.repository';
+  Inject
+} from "@nestjs/common";
+import { CreateMessageDto } from "./model/create-message.dto";
+import { IMessagesRepository, Msg } from "./messages.repository";
+import { RawMessagesService } from "./raw-messages/raw-messages.service";
 
-@Controller('messages')
+@Controller("messages")
 export class MessagesController {
   private readonly logger = new Logger(MessagesController.name, {
-    timestamp: true,
+    timestamp: true
   });
 
-  constructor(@Inject(IMessagesRepository) private repo: IMessagesRepository) {}
+  constructor(@Inject(IMessagesRepository) private repo: IMessagesRepository, private privMsgSvc: RawMessagesService) {
+  }
 
-  @Get(':id')
+  @Get(":id")
   async getMessages(
-    @Param('id') id: string,
+    @Param("id") id: string,
     @Headers() headers: Record<string, string>,
-    @Headers('Authorization') auth?: string,
+    @Headers("Authorization") auth?: string
   ) {
     this.logger.log(`Getting messages from ${id}`);
     this.logger.log(`Getting header ${auth}`);
     this.logger.log(`Getting headers ${Object.keys(headers)}`);
     const map = new Map<string, string>(Object.entries(headers));
-    const authorization2 = map.get('authorization');
+    const authorization2 = map.get("authorization");
     if (!authorization2) {
-      throw new UnauthorizedException('Not authorized access');
+      throw new UnauthorizedException("Not authorized access");
     }
     const msg = await this.repo.findOne(id);
     if (!msg) {
@@ -44,11 +46,11 @@ export class MessagesController {
     return msg!;
   }
 
-  @Post(':id')
+  @Post(":id")
   //@UsePipes(new ValidationPipe({ transform: true }))
   async createMessage(
     @Body() dto: CreateMessageDto,
-    @Param('id') id: string,
+    @Param("id") id: string
   ): Promise<Msg> {
     this.logger.log(dto);
     this.logger.log(`Creating message with id ${id}`);
@@ -57,6 +59,7 @@ export class MessagesController {
 
   @Get()
   async findAll(): Promise<Msg[]> {
+    this.logger.log(this.privMsgSvc.getRawMessage());
     return this.repo.findAll();
   }
 }
