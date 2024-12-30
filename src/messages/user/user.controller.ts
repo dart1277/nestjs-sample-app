@@ -2,10 +2,12 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  ExecutionContext,
   Get,
   Inject,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 //import { UserRepository } from './user.repository';
@@ -13,12 +15,16 @@ import { UserDto } from '../model/user.dto';
 import User from '../../database/model/user.entity';
 import { plainToInstance } from 'class-transformer';
 import { Serialize } from '../app/serialize.interceptor';
+import { AdminGuard } from '../app/admin/admin.guard';
+import { Request } from 'express';
+import { REQUEST } from '@nestjs/core';
 //import { InjectRepository } from '@nestjs/typeorm';
 //import { User } from '../model/user.entity';
 //import { Repository } from 'typeorm';
 //import { runOnTransactionCommit, Transactional } from 'typeorm-transactional';
 
 @Controller('user')
+@UseGuards(AdminGuard)
 export class UserController {
   // TypeOrm
   //constructor(private repository: UserRepository) {}
@@ -47,8 +53,13 @@ export class UserController {
       return res;
     }*/
 
-  constructor(@Inject('USER_REPOSITORY') private repository: typeof User) {}
+  constructor(
+    @Inject('USER_REPOSITORY') private repository: typeof User,
+    @Inject(REQUEST) private readonly req: Request,
+  ) {}
 
+  // interceptors are run after guards !!
+  // middleware -> guard -> interceptor -> controller
   // @UseInterceptors(ClassSerializerInterceptor)
   @Serialize(UserDto) // can be applied below controller annotation as well
   @Get()
@@ -59,6 +70,7 @@ export class UserController {
             excludeExtraneousValues: true,
           }),
         );*/
+    console.log('controller custom request', this.req.authHeader);
     const userDtos = users.map((user) => user.dataValues);
     return userDtos;
   }
