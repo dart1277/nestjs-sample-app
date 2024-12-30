@@ -3,11 +3,11 @@ import { NestFactory } from '@nestjs/core';
 /* istanbul ignore next */
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { initializeTransactionalContext } from 'typeorm-transactional';
+// import { initializeTransactionalContext } from 'typeorm-transactional';
 
 /* istanbul ignore next */
 async function bootstrap() {
-  initializeTransactionalContext();
+  //initializeTransactionalContext();
   const app = await NestFactory.create(AppModule, {
     abortOnError: true,
   });

@@ -112,3 +112,6 @@ npm install -S pg
 # sqlite (supports 1 active connection only, otherwise transactions and savepoints fail)
 npm install -S sqlite3
 
+# sequelize
+npm i -S sequelize sequelize-typescript
+npm i -D sequelize-cli

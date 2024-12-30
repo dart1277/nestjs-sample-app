@@ -6,12 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './messages/model/user.entity';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+import { DatabaseModule } from './database/database.module';
 
 /* istanbul ignore file */
 @Module({
   imports: [
     MessagesModule,
-    TypeOrmModule.forRootAsync({
+/*    TypeOrmModule.forRootAsync({
       useFactory() {
         // https://orkhan.gitbook.io/typeorm/docs/logging
         return {
@@ -40,7 +41,8 @@ import { DataSource } from 'typeorm';
 
         return addTransactionalDataSource(new DataSource(options));
       },
-    }),
+    }),*/
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

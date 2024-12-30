@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './model/user.entity';
 import { UserRepository } from './user/user.repository';
 import { UserController } from './user/user.controller';
+import { DatabaseModule } from '../database/database.module';
 
 /* istanbul ignore file */
 @Module({
@@ -14,7 +15,11 @@ import { UserController } from './user/user.controller';
     { provide: IMessagesRepository, useClass: MessagesRepository },
     UserRepository,
   ],
-  imports: [RawMessagesModule, TypeOrmModule.forFeature([User])],
-  exports: [TypeOrmModule], // export typeorm module to use generated repository in other modules
+  imports: [
+    RawMessagesModule,
+    //TypeOrmModule.forFeature([User]),
+    DatabaseModule,
+  ],
+  // exports: [TypeOrmModule], // export typeorm module to use generated repository in other modules
 })
 export class MessagesModule {}
