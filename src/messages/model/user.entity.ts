@@ -1,10 +1,10 @@
 import {
   Column,
   Entity,
-  ManyToOne,
+  ManyToOne, PrimaryColumn,
   PrimaryGeneratedColumn,
-  VersionColumn,
-} from 'typeorm';
+  VersionColumn
+} from "typeorm";
 import { UserDto } from './user.dto';
 
 @Entity('user_table')
@@ -14,7 +14,8 @@ export class User {
     Object.assign(this, dto);
   }
 
-  @PrimaryGeneratedColumn()
+  //@PrimaryGeneratedColumn() // in postgres additional unique constraint would be needed to ensure uniqueness
+  @PrimaryColumn()
   id: number;
   @Column()
   email: string;
@@ -24,6 +25,15 @@ export class User {
   // http://typeorm.io/select-query-builder#set-locking
   // ? https://github.com/typeorm/typeorm/issues/2848#issuecomment-443143839
   // https://github.com/typeorm/typeorm/issues/3608
+
+  // https://github.com/typeorm/typeorm/issues/7931
+
+  // node_modules/typeorm/persistence/EntityPersistExecutor.js
+  // await new SubjectDatabaseEntityLoader(queryRunner, subjects).load(this.mode);
+  // then node_modules/typeorm/query-builder/InsertQueryBuilder.js
+  //
+  // column.isVersion
+
   @VersionColumn() // TODO check if it issues incorrect UPDATE statements on Postgres (lacks version in where clause)
   // i.e. UPDATE "user_table" SET "email" = ?, "version" = "version" + 1 WHERE "id" IN (11)
   version: number;

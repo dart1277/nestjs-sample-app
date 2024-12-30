@@ -41,7 +41,7 @@ Authorization: Bearer {{apiKey}}
 {
   "id": 11,
   "email": "aasd1@o2.pl",
-  "password": "21321afasdf!"
+  "password": "put21322341afasdf!"
 }
 
 ###
@@ -65,5 +65,5 @@ Authorization: Bearer {{apiKey}}
 {
   "id": 11,
   "email": "putaasd1@o2.pl",
-  "password": "3001 21321afasdf!"
+  "password": "3001 2111321afasdf!"
 }

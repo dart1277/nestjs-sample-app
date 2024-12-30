@@ -4,6 +4,8 @@
 /build
 
 *.sqlite
+pgadmin_data/
+postgres_data/
 
 # Logs
 logs

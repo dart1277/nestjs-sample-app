@@ -15,9 +15,15 @@ import { DataSource } from 'typeorm';
       useFactory() {
         // https://orkhan.gitbook.io/typeorm/docs/logging
         return {
-          // type: 'postgres',
-          type: 'sqlite',
-          database: 'db.sqlite',
+          type: 'postgres',
+          database: 'msg',
+          schema: 'web',
+          port: 5432,
+          host: 'localhost',
+          username: 'cx',
+          password: 'okok',
+          //type: 'sqlite',
+          //database: 'db.sqlite',
           synchronize: true,
           entities: [User],
           //autoLoadEntities: true,

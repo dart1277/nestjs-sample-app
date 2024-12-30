@@ -104,4 +104,11 @@ npm i --save class-validator class-transformer
 // then add middleware: app.useGlobalPipes(new ValidationPipe());
 
 ### typeorm
-npm i -S @nestjs/typeorm typeorm sqlite3 typeorm-transactional reflect-metadata
+npm i -S @nestjs/typeorm typeorm typeorm-transactional reflect-metadata
+
+# postgres
+npm install -S pg
+
+# sqlite (supports 1 active connection only, otherwise transactions and savepoints fail)
+npm install -S sqlite3
+
