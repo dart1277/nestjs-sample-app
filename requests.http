@@ -22,6 +22,12 @@ Authorization: Bearer {{apiKey}}
 
 ### USER
 
+GET {{host}}/user
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+###
+
 POST {{host}}/user
 Content-Type: application/json
 Authorization: Bearer {{apiKey}}

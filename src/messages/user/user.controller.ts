@@ -1,7 +1,18 @@
-import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 //import { UserRepository } from './user.repository';
 import { UserDto } from '../model/user.dto';
 import User from '../../database/model/user.entity';
+import { plainToInstance } from 'class-transformer';
+import { Serialize } from '../app/serialize.interceptor';
 //import { InjectRepository } from '@nestjs/typeorm';
 //import { User } from '../model/user.entity';
 //import { Repository } from 'typeorm';
@@ -37,6 +48,20 @@ export class UserController {
     }*/
 
   constructor(@Inject('USER_REPOSITORY') private repository: typeof User) {}
+
+  // @UseInterceptors(ClassSerializerInterceptor)
+  @Serialize(UserDto) // can be applied below controller annotation as well
+  @Get()
+  async getAllUsers(): Promise<UserDto[]> {
+    const users = await this.repository.findAll();
+    /*    const userDtos = users.map((user) =>
+          plainToInstance(UserDto, user.dataValues, {
+            excludeExtraneousValues: true,
+          }),
+        );*/
+    const userDtos = users.map((user) => user.dataValues);
+    return userDtos;
+  }
 
   @Post()
   async createUser(@Body() user: UserDto): Promise<UserDto> {
