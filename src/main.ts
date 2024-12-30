@@ -11,7 +11,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     abortOnError: true,
   });
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true, // strip extra properties
+    }),
+  );
   await app.listen(process.env.PORT ?? 3000);
 }
 
