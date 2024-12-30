@@ -20,4 +20,50 @@ Authorization: Bearer {{apiKey}}
   "content": "22 is there"
 }
 
+### USER
+
+POST {{host}}/user
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "id": 11,
+  "email": "aas@o2.pl",
+  "password": "21321afasdf!"
+}
+
 ###
+
+PUT {{host}}/user
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "id": 11,
+  "email": "aasd1@o2.pl",
+  "password": "21321afasdf!"
+}
+
+###
+
+POST http://localhost:3001/user
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "id": 11,
+  "email": "aasd1@o2.pl",
+  "password": "3001 21321afasdf!"
+}
+
+###
+
+PUT http://localhost:3001/user
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "id": 11,
+  "email": "putaasd1@o2.pl",
+  "password": "3001 21321afasdf!"
+}

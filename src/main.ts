@@ -3,14 +3,17 @@ import { NestFactory } from '@nestjs/core';
 /* istanbul ignore next */
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 /* istanbul ignore next */
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  initializeTransactionalContext();
+  const app = await NestFactory.create(AppModule, {
+    abortOnError: true,
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(process.env.PORT ?? 3000);
 }
 
 /* istanbul ignore next */
 bootstrap();
-
