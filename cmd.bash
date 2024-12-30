@@ -115,3 +115,15 @@ npm install -S sqlite3
 # sequelize
 npm i -S sequelize sequelize-typescript
 npm i -D sequelize-cli
+
+# sequelize migrations
+# this will initialize sequelize and create config, migrations, seeders and models // folders
+sequelize init
+# Edit config/config.json. The dialect should be "postgres"
+# run migration to create/update schema of your tables
+# sequelize db:migrate
+# creating a model
+# sequelize model:create --name User --attributes 'name:string email:string bio:text'
+# After creating the model always run sequelize db:migrate so model can be used to create a table.
+# Creating a new migration
+# sequelize migration:create --name 'nameofthemigration'
