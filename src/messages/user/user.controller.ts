@@ -7,6 +7,7 @@ import {
   Inject,
   Post,
   Put,
+  Session,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { Serialize } from '../app/serialize.interceptor';
 import { AdminGuard } from '../app/admin/admin.guard';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
+import { CustomContextData } from '../app/custom-context-data/custom-context-data.decorator';
 //import { InjectRepository } from '@nestjs/typeorm';
 //import { User } from '../model/user.entity';
 //import { Repository } from 'typeorm';
@@ -63,7 +65,10 @@ export class UserController {
   // @UseInterceptors(ClassSerializerInterceptor)
   @Serialize(UserDto) // can be applied below controller annotation as well
   @Get()
-  async getAllUsers(): Promise<UserDto[]> {
+  async getAllUsers(
+    @CustomContextData() customData: string,
+    @Session() session: any,
+  ): Promise<UserDto[]> {
     const users = await this.repository.findAll();
     /*    const userDtos = users.map((user) =>
           plainToInstance(UserDto, user.dataValues, {
@@ -71,6 +76,9 @@ export class UserController {
           }),
         );*/
     console.log('controller custom request', this.req.authHeader);
+    console.log('controller custom data', customData);
+    console.log('controller session', session);
+    session.data1 = '1234';
     const userDtos = users.map((user) => user.dataValues);
     return userDtos;
   }

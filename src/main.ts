@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 // import { initializeTransactionalContext } from 'typeorm-transactional';
+const cookieSession = require('cookie-session');
 
 /* istanbul ignore next */
 async function bootstrap() {
@@ -17,6 +18,7 @@ async function bootstrap() {
       whitelist: true, // strip extra properties
     }),
   );
+  app.use(cookieSession({ keys: ['toSepcretCookieEncryptionKey123'] }));
   await app.listen(process.env.PORT ?? 3000);
 }
 

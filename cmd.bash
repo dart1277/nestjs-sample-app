@@ -127,3 +127,9 @@ sequelize init
 # After creating the model always run sequelize db:migrate so model can be used to create a table.
 # Creating a new migration
 # sequelize migration:create --name 'nameofthemigration'
+
+# session
+# cookie-session from express can be used to create session cookies
+npm i -S cookie-session
+# app.use(cookieSession({ keys: ['toSepcretCookieEncryptionKey123'] }));
+# @Session can be used in controller methods to get access to session cookie
