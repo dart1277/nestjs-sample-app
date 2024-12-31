@@ -11,17 +11,23 @@ import { DatabaseModule } from './database/database.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CurrentUserInterceptor } from './messages/app/currentuser/current-user.interceptor';
 import { AuthMiddleware } from './messages/app/auth/auth.middleware';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 
 /* istanbul ignore file */
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
     MessagesModule,
     /*    TypeOrmModule.forRootAsync({
-          useFactory() {
+          inject: [ConfigService],
+          useFactory(config: ConfigService) {
             // https://orkhan.gitbook.io/typeorm/docs/logging
             return {
               type: 'postgres',
-              database: 'msg',
+              database: config.get<string>('DB_NAME') || 'msg',
               schema: 'web',
               port: 5432,
               host: 'localhost',

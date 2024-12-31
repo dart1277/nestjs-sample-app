@@ -60,6 +60,7 @@ npx ts-jest config:init
 
 # run specific test case with coverage inside dir
 npx jest --no-cache --runInBand --clearMocks --restoreMocks --verbose --coverage --collectCoverageFrom="messages/*.ts" -i src/messages/messages.controller.spec.ts -t 'should be defined'
+# --maxWorkers=1 is similar to --runInBand
 
 tsconfig.json
 
@@ -133,3 +134,8 @@ sequelize init
 npm i -S cookie-session
 # app.use(cookieSession({ keys: ['toSepcretCookieEncryptionKey123'] }));
 # @Session can be used in controller methods to get access to session cookie
+
+# config
+npm i -S @nestjs/config
+# includes dotenv library
+# to set NODE_ENV (or other env vars) on windows use https://www.npmjs.com/package/cross-env
