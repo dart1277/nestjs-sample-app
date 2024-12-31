@@ -8,10 +8,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessagesModule } from './messages/messages.module';
 import { DatabaseModule } from './database/database.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { CurrentUserInterceptor } from './messages/app/currentuser/current-user.interceptor';
 import { AuthMiddleware } from './messages/app/auth/auth.middleware';
 import {ConfigModule, ConfigService} from '@nestjs/config';
+import { MainExceptionFilter } from "./messages/app/exceptions/main-exception.filter";
 
 /* istanbul ignore file */
 @Module({
@@ -60,6 +61,10 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
     {
       provide: APP_INTERCEPTOR,
       useClass: CurrentUserInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: MainExceptionFilter,
     },
   ],
 })

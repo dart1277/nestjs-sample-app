@@ -12,6 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     abortOnError: true,
   });
+  // middleware applied globally cannot use DI, since it's not part of any module
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
